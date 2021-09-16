@@ -26,6 +26,13 @@ export const login = async (user) => {
     }),
   };
 
+  console.log(
+    "user.identifier",
+    user.identifier,
+    "user.password",
+    user.password
+  );
+
   try {
     const response = await fetch(`${url}/auth/local`, requestConfig);
     const json = await response.json();

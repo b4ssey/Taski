@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { store } from "./Store";
+
 const slice = createSlice({
   name: "user",
   initialState: { jwt: null, user: null },
@@ -17,12 +19,10 @@ const slice = createSlice({
 const { userSaved, userDeleted } = slice.actions;
 export default slice.reducer;
 
-export const saveUser =
-  ({ jwt, user }) =>
-  (dispatch) => {
-    dispatch(userSaved(jwt, user));
-  };
-
-export const deleteUser = () => (dispatch) => {
-  dispatch(userDeleted());
+export const saveUser = (jwt, user) => {
+  store.dispatch(userSaved({ jwt, user }));
 };
+
+// export const deleteUser = () => (dispatch) => {
+//   dispatch(userDeleted());
+// };
