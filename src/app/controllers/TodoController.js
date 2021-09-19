@@ -1,4 +1,4 @@
-import { store } from "../../redux/Store";
+import { store } from "../../store/Store";
 
 /**
  * if you have an instance of Strapi running on your local

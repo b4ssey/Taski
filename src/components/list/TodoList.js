@@ -1,18 +1,42 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import {
-  ActivityIndicator,
-  Dialog,
-  List,
-  Portal,
   Text,
+  IconButton,
+  ActivityIndicator,
+  Button,
+  Portal,
+  Dialog,
+  Paragraph,
+  TextInput,
+  HelperText,
+  Divider,
 } from "react-native-paper";
+import { FlatList } from "react-native-gesture-handler";
 import hamburger from "../../../assets/hamburger.svg";
 import kebab from "../../../assets/kebab.svg";
 import taskiHeader from "../../../assets/taskiHeader.svg";
-import kebab from "../../../assets/kebab.svg";
 import emptyState from "../../../assets/emptyState.svg";
 import { SvgXml } from "react-native-svg";
+import { store } from "../../store/Store";
+import TodoModel from "../../app/models/TodoModel";
+import TodoView from "../../app/views/TodoView";
+
+/**
+ * the footer also acts as the load more
+ * indicator.
+ */
+export const TodoFooter = (props) => {
+  return (
+    <>
+      {props.shouldLoadMore ? (
+        <View style={styles.loaderView}>
+          <ActivityIndicator animating />
+        </View>
+      ) : null}
+    </>
+  );
+};
 
 export const TodoHeader = (props) => {
   const [error, setError] = React.useState("");
@@ -234,6 +258,7 @@ export const TodoList = (props) => {
     }
 
     const url = `http://192.168.1.128:1337/todos?_start=${start}&_limit=${limit}`;
+
     const jwt = store.getState().jwt;
     const response = await fetch(url, {
       headers: { Authorization: `Bearer ${jwt}` },
