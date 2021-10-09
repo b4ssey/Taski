@@ -1,6 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Headline,
   Paragraph,
@@ -8,11 +7,14 @@ import {
   Button,
   Portal,
   Snackbar,
+  Caption,
 } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
 import UserModel from "../../app/models/UserModel";
+import AppKBAreaView from "../../components/reusables/AppKBAreaView";
+import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 
-function Login(props) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
@@ -53,31 +55,26 @@ function Login(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <>
-        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-      </>
-
+    <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
       <Taski width={105} style={{ alignSelf: "center" }} />
-      <View style={{ height: 32 }} />
-
-      {/* <TaskiLogin width={85} style={{ alignSelf: "center" }} /> */}
+      <View style={{ height: "5%" }} />
 
       <View>
-        <Headline style={styles.appTitle}>Start with taski</Headline>
-        <Paragraph style={styles.appDesc}>
+        <Headline style={[styles.text, { fontWeight: "700" }]}>
+          Start with taski
+        </Headline>
+        <Caption style={[styles.text]}>
           Join us now and get your daily things right
-        </Paragraph>
+        </Caption>
       </View>
 
       <>
         <View style={styles.divider} />
         <TextInput
           onChangeText={(text) => setEmail(text)}
-          label="*Email Address"
+          label="Email Address"
           placeholder="your@email.com"
           mode="outlined"
-          theme={{ colors: { primary: "#7EBB4F" } }}
         />
       </>
 
@@ -85,11 +82,10 @@ function Login(props) {
         <View style={styles.divider} />
         <TextInput
           onChangeText={(text) => setPassword(text)}
-          label="*Password"
+          label="Password"
           placeholder="Input password here..."
           mode="outlined"
           secureTextEntry
-          theme={{ colors: { primary: "#7EBB4F" } }}
         />
       </>
 
@@ -101,7 +97,7 @@ function Login(props) {
           style={styles.btn}
           onPress={() => authenticateUser()}
           mode="contained"
-          contentStyle={{ backgroundColor: "#7EBB4F", height: 48 }}
+          uppercase={false}
         >
           Login
         </Button>
@@ -114,35 +110,15 @@ function Login(props) {
           </Portal>
         </>
       </>
-    </View>
+    </AppKBAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingLeft: 16,
-    paddingRight: 16,
-    alignContent: "center",
-    justifyContent: "center",
-    backgroundColor: "#F4F4F4",
-  },
-  appTitle: {
+  text: {
     textAlign: "center",
-    fontSize: 24,
-    lineHeight: 35,
-    fontWeight: "700",
-    color: "#0B0A11",
   },
-  svg: {
-    alignSelf: "center",
-  },
-  appDesc: { textAlign: "center" },
   divider: { height: 16 },
-  btn: {
-    // height: 50,
-    // paddingTop: 6,
-  },
 });
 
 export default Login;
