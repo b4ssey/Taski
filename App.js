@@ -11,13 +11,14 @@ import theme from "./src/components/theme";
 import Login from "./src/screens/authentication/Login";
 import Register from "./src/screens/authentication/Register";
 import FirstScreen from "./src/screens/authentication/FirstScreen";
+import Todo from "./src/components/list/Todo";
 
 export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <PaperProvider theme={theme}>
-          <FirstScreen />
+          <Overview />
         </PaperProvider>
       </PersistGate>
     </Provider>
