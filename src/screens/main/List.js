@@ -55,9 +55,9 @@ function List(props) {
   return (
     <>
       <StatusBar hidden />
-      <Appbar style={styles.bottom}>
+      <Appbar style={styles.bar}>
         <Appbar.Action icon="menu" onPress={() => {}} />
-        <Taski width={66} style={{ alignSelf: "center" }} />
+        <Taski width={66} />
         <Appbar.Action icon="dots-vertical" onPress={() => {}} />
       </Appbar>
       <AppSafeAreaView SAVstyle={{ paddingTop: "2.5%" }}>
@@ -104,7 +104,7 @@ function List(props) {
 
 const styles = StyleSheet.create({
   container: {},
-  bottom: { backgroundColor: "#F2F2F2", justifyContent: "space-between" },
+  bar: { backgroundColor: "#F2F2F2", justifyContent: "space-between" },
 });
 
 export default List;

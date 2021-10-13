@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     padding: "0.5%",
     width: "25%",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 10,
   },
 });
 
