@@ -18,7 +18,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <PaperProvider theme={theme}>
-          <Overview />
+          <Register />
         </PaperProvider>
       </PersistGate>
     </Provider>

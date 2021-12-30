@@ -8,7 +8,7 @@ function Calender(props) {
   const [date, setDate] = useState(new Date());
   const calendarDate = format(date, "yyyy-MM-dd");
 
-  console.log(calendarDate);
+  // console.log(calendarDate);
   return (
     <AppSafeAreaView>
       <Agenda
