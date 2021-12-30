@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput as NativeTextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput as NativeTextInput,
+  Platform,
+} from "react-native";
 import {
   Appbar,
   Button,
@@ -49,10 +54,13 @@ function Add() {
 
   return (
     <>
-      <Appbar style={styles.bar}>
-        <Headline style={{ fontWeight: "700" }}>Add New Task</Headline>
-      </Appbar>
-      <AppKBAreaView KAVstyle={{ paddingTop: "2.5%" }}>
+      <AppKBAreaView
+        KAVstyle={{ paddingTop: Platform.OS == "ios" ? "10%" : "0%" }}
+      >
+        <Headline style={{ fontWeight: "700", alignSelf: "center" }}>
+          Add New Task
+        </Headline>
+
         <TextInput
           label="Task Title"
           placeholder="Input task title…"
@@ -140,7 +148,11 @@ function Add() {
 
 const styles = StyleSheet.create({
   container: {},
-  bar: { backgroundColor: "#F2F2F2", justifyContent: "center" },
+  bar: {
+    backgroundColor: "#F2F2F2",
+    justifyContent: "center",
+    paddingTop: "10%",
+  },
   rows: {
     flexDirection: "row",
     justifyContent: "space-between",

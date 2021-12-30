@@ -18,7 +18,7 @@ function Verification() {
   });
   const CELL_COUNT = 5;
   return (
-    <AppKBAreaView KAVstyle={{ justifyContent: "space-between" }}>
+    <AppKBAreaView KAVstyle={{}}>
       <View>
         <Headline style={{ fontWeight: "700" }}>Verify Your Account</Headline>
         <Caption>

@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Appbar, Searchbar, Text } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
@@ -57,7 +57,7 @@ function List(props) {
       <StatusBar hidden />
       <Appbar style={styles.bar}>
         <Appbar.Action icon="menu" onPress={() => {}} />
-        <Taski width={66} />
+        {Platform.OS == "android" && <Taski width={66} />}
         <Appbar.Action icon="dots-vertical" onPress={() => {}} />
       </Appbar>
       <AppSafeAreaView SAVstyle={{ paddingTop: "2.5%" }}>

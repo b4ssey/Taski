@@ -14,7 +14,7 @@ import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 function Register(props) {
   const [checked, setChecked] = React.useState(false);
   return (
-    <AppKBAreaView KAVstyle={{ justifyContent: "space-between" }}>
+    <AppKBAreaView KAVstyle={{}}>
       <View>
         <Headline style={[{ fontWeight: "700" }]}>Join us today.</Headline>
         <Caption>It’s Nice too see you, let’s start</Caption>

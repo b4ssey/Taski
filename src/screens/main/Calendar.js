@@ -3,6 +3,7 @@ import { Agenda } from "react-native-calendars";
 import Todo from "../../components/list/Todo";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import { format } from "date-fns";
+import { View } from "react-native-web";
 
 function Calender(props) {
   const [date, setDate] = useState(new Date());
@@ -13,7 +14,7 @@ function Calender(props) {
     <AppSafeAreaView>
       <Agenda
         items={{
-          "2021-10-13": [
+          "2021-12-30": [
             {
               title: "Client Meetings",
               timeDate: "March 16, 2021 — 12.00 PM",
@@ -28,7 +29,7 @@ function Calender(props) {
               tag: "Normal",
             },
           ],
-          "2021-10-14": [
+          "2021-12-29": [
             {
               title: "Client Event",
               timeDate: "Yesterday — 09.30",
@@ -52,6 +53,9 @@ function Calender(props) {
               tag={item.tag}
             />
           );
+        }}
+        renderEmptyData={() => {
+          return null;
         }}
         selected={calendarDate}
         theme={{
