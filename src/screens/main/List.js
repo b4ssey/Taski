@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { View, StyleSheet, Platform, Dimensions } from "react-native";
 import { FlatList, DrawerLayout } from "react-native-gesture-handler";
-import { Appbar, Searchbar, Drawer } from "react-native-paper";
+import { Appbar, Searchbar, Drawer, Menu, Divider } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
 import TaskiEmpty from "../../../assets/taskiEmpty.svg";
 import Todo from "../../components/list/Todo";
@@ -55,7 +55,11 @@ const handleDrawerSlide = (status) => {
 function List(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [active, setActive] = React.useState("");
+  const [visible, setVisible] = React.useState(false);
   let drawer = null;
+
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
 
   const renderDrawer = () => {
     return (
@@ -111,8 +115,20 @@ function List(props) {
         <Appbar style={styles.bar}>
           <Appbar.Action icon="menu" onPress={() => drawer.openDrawer()} />
           {Platform.OS == "android" && <Taski width={66} />}
-          <Appbar.Action icon="dots-vertical" onPress={() => {}} />
+          <Menu
+            visible={visible}
+            onDismiss={closeMenu}
+            anchor={
+              <Appbar.Action icon="dots-vertical" onPress={() => openMenu()} />
+            }
+            style={{ marginTop: "10%" }}
+          >
+            <Menu.Item onPress={() => {}} title="Refresh" />
+            <Divider />
+            <Menu.Item onPress={() => {}} title="Logout" />
+          </Menu>
         </Appbar>
+
         <AppSafeAreaView SAVstyle={{ paddingTop: "2.5%" }}>
           <FlatList
             data={dummydata}
