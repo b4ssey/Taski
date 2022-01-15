@@ -1,6 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Provider as PaperProvider } from "react-native-paper";
+import {
+  Provider as PaperProvider,
+  DarkTheme as PaperDarkTheme,
+} from "react-native-paper";
+import {
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./src/store/Store";
@@ -12,14 +20,17 @@ import Login from "./src/screens/authentication/Login";
 import Register from "./src/screens/authentication/Register";
 import FirstScreen from "./src/screens/authentication/FirstScreen";
 import Todo from "./src/components/list/Todo";
+import darkTheme from "./src/components/darktheme";
 
 export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PaperProvider theme={theme}>
-          <Overview />
-        </PaperProvider>
+        <NavigationContainer theme={darkTheme}>
+          <PaperProvider theme={darkTheme}>
+            <Login />
+          </PaperProvider>
+        </NavigationContainer>
       </PersistGate>
     </Provider>
   );

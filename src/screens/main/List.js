@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, Platform, Dimensions } from "react-native";
 import { FlatList, DrawerLayout } from "react-native-gesture-handler";
 import { Appbar, Searchbar, Drawer, Menu, Divider } from "react-native-paper";
+import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import Taski from "../../../assets/taski.svg";
 import TaskiEmpty from "../../../assets/taskiEmpty.svg";
 import Todo from "../../components/list/Todo";
@@ -119,7 +120,11 @@ function List(props) {
             visible={visible}
             onDismiss={closeMenu}
             anchor={
-              <Appbar.Action icon="dots-vertical" onPress={() => openMenu()} />
+              <Appbar.Action
+                icon="dots-vertical"
+                onPress={() => openMenu()}
+                color={"#ffffff"}
+              />
             }
             style={{ marginTop: "10%" }}
           >
@@ -187,7 +192,10 @@ function List(props) {
 
 const styles = StyleSheet.create({
   container: {},
-  bar: { backgroundColor: "#F2F2F2", justifyContent: "space-between" },
+  bar: {
+    // backgroundColor: "#F2F2F2",
+    justifyContent: "space-between",
+  },
 });
 
 export default List;

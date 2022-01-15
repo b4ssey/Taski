@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     padding: "5%",
     paddingTop: "15%",
     alignContent: "center",
-    backgroundColor: "#F4F4F4",
+    // backgroundColor: "#F4F4F4",
   },
 });
 
