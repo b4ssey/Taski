@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
 import { BottomNavigation, Text } from "react-native-paper";
 import AddRoute from "../../screens/main/Add";
 import CalendarRoute from "../../screens/main/Calendar";

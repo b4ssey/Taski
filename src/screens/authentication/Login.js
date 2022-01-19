@@ -14,45 +14,45 @@ import UserModel from "../../app/models/UserModel";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 
-function Login() {
+function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const validateInput = () => {
-    let errors = false;
+  // const validateInput = () => {
+  //   let errors = false;
 
-    if (!email || email.length === 0) {
-      errors = true;
-    }
+  //   if (!email || email.length === 0) {
+  //     errors = true;
+  //   }
 
-    if (!password || password.length === 0) {
-      errors = true;
-    }
+  //   if (!password || password.length === 0) {
+  //     errors = true;
+  //   }
 
-    return !errors;
-  };
+  //   return !errors;
+  // };
 
-  const authenticateUser = async () => {
-    if (validateInput()) {
-      setLoading(true);
-      const user = new UserModel(email, password);
+  // const authenticateUser = async () => {
+  //   if (validateInput()) {
+  //     setLoading(true);
+  //     const user = new UserModel(email, password);
 
-      try {
-        await user.login();
-      } catch (err) {
-        setError(err.message);
-        setVisible(true);
-        setLoading(false);
-      }
-    } else {
-      setError("Please fill out all *required fields");
-      setVisible(true);
-      setLoading(false);
-    }
-  };
+  //     try {
+  //       await user.login();
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setVisible(true);
+  //       setLoading(false);
+  //     }
+  //   } else {
+  //     setError("Please fill out all *required fields");
+  //     setVisible(true);
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
@@ -92,10 +92,10 @@ function Login() {
       <>
         <View style={styles.divider} />
         <Button
-          loading={loading}
-          disabled={loading}
+          // loading={loading}
+          // disabled={loading}
           style={styles.btn}
-          onPress={() => authenticateUser()}
+          onPress={() => navigation.navigate("Overview")}
           mode="contained"
           uppercase={false}
         >

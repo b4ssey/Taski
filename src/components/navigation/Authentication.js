@@ -1,41 +1,25 @@
 import React from "react";
-
-// navigation components
+import "react-native-gesture-handler";
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../../screens/authentication/Login";
+import Register from "../../screens/authentication/Register";
+import Verification from "../../screens/authentication/Verification";
 import Overview from "../../screens/main/Overview";
-import { store } from "../../store/Store";
+
+const Stack = createNativeStackNavigator();
 
 const Authentication = () => {
-  const [route, setRoute] = React.useState(
-    store.getState().jwt ? "Overview" : "Login"
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="login">
+        <Stack.Screen name="login" component={Login} />
+        <Stack.Screen name="register" component={Register} />
+        <Stack.Screen name="verification" component={Verification} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-
-  const Navigator = createAppContainer(
-    createSwitchNavigator(
-      {
-        Login: {
-          screen: Login,
-        },
-        Overview: {
-          screen: Overview,
-        },
-      },
-      {
-        initialRouteName: route,
-      }
-    )
-  );
-
-  // on mount subscribe to store event
-  React.useEffect(() => {
-    store.subscribe(() => {
-      setRoute(store.getState().jwt ? "Overview" : "Login");
-    });
-  }, []);
-
-  return <Navigator />;
 };
 
 export default Authentication;

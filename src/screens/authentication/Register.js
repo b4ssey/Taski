@@ -11,7 +11,7 @@ import {
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 
-function Register(props) {
+function Register({ navigation }) {
   const [checked, setChecked] = React.useState(false);
   return (
     <AppKBAreaView KAVstyle={{}}>
@@ -54,12 +54,21 @@ function Register(props) {
         </View>
       </View>
       <View>
-        <Button mode="contained" uppercase={false}>
+        <Button
+          mode="contained"
+          uppercase={false}
+          onPress={() => navigation.navigate("verification")}
+        >
           Register
         </Button>
         <View style={[styles.rowView, { justifyContent: "center" }]}>
           <Paragraph>Already have Account?</Paragraph>
-          <Button uppercase={false}>Login</Button>
+          <Button
+            uppercase={false}
+            onPress={() => navigation.navigate("login")}
+          >
+            Login
+          </Button>
         </View>
       </View>
     </AppKBAreaView>

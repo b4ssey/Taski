@@ -1,9 +1,9 @@
-import { AsyncStorage } from "react-native";
+// import { AsyncStorage } from "react-native";
 import { createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import rootReducer from "./userSlice";
 
-const persistConfig = { key: "root", storage: AsyncStorage };
+// const persistConfig = { key: "root", storage: AsyncStorage };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

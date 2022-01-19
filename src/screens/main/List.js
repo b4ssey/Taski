@@ -77,11 +77,11 @@ function List(props) {
               active={active === "second"}
               onPress={() => setActive("second")}
             />
-            <Drawer.Item
+            {/* <Drawer.Item
               label="Buy me a Coffee"
               active={active === "third"}
               onPress={() => setActive("third")}
-            />
+            /> */}
           </Drawer.Section>
           <Drawer.Section title="About....">
             <Drawer.Item
