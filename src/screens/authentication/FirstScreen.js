@@ -5,7 +5,7 @@ import Taski from "../../../assets/taski.svg";
 import TaskiLogin from "../../../assets/taskiLogin.svg";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 
-function FirstScreen(props) {
+function FirstScreen({ navigation }) {
   return (
     <AppSafeAreaView SAVstyle={{ justifyContent: "space-between" }}>
       <Taski style={{ alignSelf: "center" }} />
@@ -19,11 +19,19 @@ function FirstScreen(props) {
             Join us now and get your daily things right
           </Caption>
           <View style={{ height: "5%" }} />
-          <Button mode="contained" uppercase={false}>
+          <Button
+            mode="contained"
+            uppercase={false}
+            onPress={() => navigation.navigate("login")}
+          >
             Login
           </Button>
           <View style={{ height: "5%" }} />
-          <Button mode="outlined" uppercase={false}>
+          <Button
+            mode="outlined"
+            uppercase={false}
+            onPress={() => navigation.navigate("register")}
+          >
             Register
           </Button>
         </View>

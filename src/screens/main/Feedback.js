@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Button, Caption, Headline, TextInput } from "react-native-paper";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 
-function Feedback(props) {
+function Feedback({ navigation }) {
   return (
     <AppKBAreaView>
       <Headline style={{ fontWeight: "700", alignSelf: "center" }}>
@@ -19,11 +19,11 @@ function Feedback(props) {
         mode="outlined"
       />
       <TextInput
-        label="Name"
+        label="Feedback"
         placeholder="FirstName LastName"
         mode="outlined"
       />
-      <Button>Submit</Button>
+      <Button onPress={() => navigation.goback()}>Submit</Button>
     </AppKBAreaView>
   );
 }

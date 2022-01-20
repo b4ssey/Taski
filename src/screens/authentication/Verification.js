@@ -9,7 +9,7 @@ import {
 } from "react-native-confirmation-code-field";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 
-function Verification() {
+function Verification({ navigation }) {
   const [value, setValue] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -22,12 +22,11 @@ function Verification() {
       <View>
         <Headline style={{ fontWeight: "700" }}>Verify Your Account</Headline>
         <Caption>
-          It’s only one more step, please check your verification code at your
-          email
+          It’s only one more step, please check your email for verification?
         </Caption>
         <View style={{ height: "10%" }} />
         <>
-          <CodeField
+          {/* <CodeField
             ref={ref}
             {...props}
             value={value}
@@ -47,16 +46,22 @@ function Verification() {
                 </Text>
               </View>
             )}
-          />
+          /> */}
         </>
         <View style={{ height: "10%" }} />
         <View style={{ alignItems: "center" }}>
-          <Paragraph>Don’t Receive the verification code?</Paragraph>
+          <Paragraph>Didn’t Receive the verification code?</Paragraph>
           <Button uppercase={false}>Resend Code</Button>
         </View>
       </View>
 
-      <Button mode="contained">Verify Account</Button>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate("login")}
+        uppercase={false}
+      >
+        Account Verified?
+      </Button>
     </AppKBAreaView>
   );
 }

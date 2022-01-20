@@ -26,9 +26,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer theme={darkTheme}>
-          <PaperProvider theme={darkTheme}>
-            <Login />
+        <NavigationContainer theme={theme}>
+          <PaperProvider theme={theme}>
+            <Overview />
           </PaperProvider>
         </NavigationContainer>
       </PersistGate>

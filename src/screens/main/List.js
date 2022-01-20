@@ -53,7 +53,7 @@ const handleDrawerSlide = (status) => {
   // console.log("status", status);
 };
 
-function List(props) {
+function List({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [active, setActive] = React.useState("");
   const [visible, setVisible] = React.useState(false);
@@ -75,7 +75,10 @@ function List(props) {
             <Drawer.Item
               label="Send Feedback"
               active={active === "second"}
-              onPress={() => setActive("second")}
+              onPress={() => {
+                setActive("second");
+                navigation.navigate("feedback");
+              }}
             />
             {/* <Drawer.Item
               label="Buy me a Coffee"
@@ -87,12 +90,18 @@ function List(props) {
             <Drawer.Item
               label="You"
               active={active === "F"}
-              onPress={() => setActive("F")}
+              onPress={() => {
+                setActive("F");
+                navigation.navigate("your");
+              }}
             />
             <Drawer.Item
               label="Me"
               active={active === "G"}
-              onPress={() => setActive("G")}
+              onPress={() => {
+                setActive("G");
+                navigation.navigate("my");
+              }}
             />
           </Drawer.Section>
         </View>

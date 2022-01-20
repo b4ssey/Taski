@@ -95,12 +95,21 @@ function Login({ navigation }) {
           // loading={loading}
           // disabled={loading}
           style={styles.btn}
-          onPress={() => navigation.navigate("Overview")}
+          onPress={() => navigation.navigate("register")}
           mode="contained"
           uppercase={false}
         >
           Login
         </Button>
+        <View style={[styles.rowView, { justifyContent: "center" }]}>
+          <Paragraph>Don't have Account?</Paragraph>
+          <Button
+            uppercase={false}
+            onPress={() => navigation.navigate("register")}
+          >
+            Register
+          </Button>
+        </View>
 
         <>
           <Portal>
@@ -119,6 +128,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   divider: { height: 16 },
+  rowView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
 
 export default Login;

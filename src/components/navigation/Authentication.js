@@ -7,18 +7,21 @@ import Login from "../../screens/authentication/Login";
 import Register from "../../screens/authentication/Register";
 import Verification from "../../screens/authentication/Verification";
 import Overview from "../../screens/main/Overview";
+import FirstScreen from "../../screens/authentication/FirstScreen";
 
 const Stack = createNativeStackNavigator();
 
 const Authentication = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="register" component={Register} />
-        <Stack.Screen name="verification" component={Verification} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      initialRouteName="first"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="first" component={FirstScreen} />
+      <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="register" component={Register} />
+      <Stack.Screen name="verification" component={Verification} />
+    </Stack.Navigator>
   );
 };
 
