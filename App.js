@@ -21,6 +21,8 @@ import Register from "./src/screens/authentication/Register";
 import FirstScreen from "./src/screens/authentication/FirstScreen";
 import Todo from "./src/components/list/Todo";
 import darkTheme from "./src/components/darktheme";
+import Feedback from "./src/screens/main/Feedback";
+import MyProfile from "./src/screens/main/MyProfile";
 
 export default function App() {
   return (
@@ -28,7 +30,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer theme={theme}>
           <PaperProvider theme={theme}>
-            <Overview />
+            <MyProfile />
           </PaperProvider>
         </NavigationContainer>
       </PersistGate>
