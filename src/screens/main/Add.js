@@ -1,12 +1,6 @@
 import React, { useState } from "react";
+import { View, StyleSheet, Platform } from "react-native";
 import {
-  View,
-  StyleSheet,
-  TextInput as NativeTextInput,
-  Platform,
-} from "react-native";
-import {
-  Appbar,
   Button,
   Headline,
   Menu,
@@ -21,6 +15,8 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import { format } from "date-fns";
+import RHFInput from "../../components/reusables/RHFInput";
+import { useForm } from "react-hook-form";
 
 function Add() {
   const [visible, setVisible] = useState(false);
@@ -32,6 +28,12 @@ function Add() {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const formatedDate = format(date, "MMM d, yyyy - p");
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -61,16 +63,32 @@ function Add() {
           Add New Task
         </Headline>
 
-        <TextInput
+        {/* <TextInput
           label="Task Title"
           placeholder="Input task title…"
           mode="outlined"
+        /> */}
+        <RHFInput
+          name="title"
+          control={control}
+          label="Task Title"
+          placeholder="Input task title…"
+          mode="outlined"
+          rules={{ required: "title is required" }}
         />
         <View style={{ height: "5%" }} />
-        <TextInput
+        {/* <TextInput
           label="Notes"
           placeholder="Input task notes…"
           mode="outlined"
+        /> */}
+        <RHFInput
+          name="notes"
+          control={control}
+          label="Notes"
+          placeholder="Input task notes…"
+          mode="outlined"
+          rules={{ required: "notes is required" }}
         />
         <View style={{ height: "5%" }} />
         <Paragraph>Tag</Paragraph>
@@ -138,7 +156,11 @@ function Add() {
           )}
         </Card>
         <View style={{ height: "2.5%" }} />
-        <Button mode="contained" uppercase={false}>
+        <Button
+          mode="contained"
+          uppercase={false}
+          onPress={handleSubmit((data) => console.log(data))}
+        >
           Save Task
         </Button>
       </AppKBAreaView>

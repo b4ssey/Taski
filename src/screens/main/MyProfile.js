@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import {
   Caption,
-  Headline,
   Subheading,
   Text,
   Title,
@@ -16,14 +15,13 @@ function MyProfile({ navigation }) {
     <>
       <AppSafeAreaView SAVstyle={{}}>
         <View style={{ alignItems: "center" }}>
-          <Headline>Hey!</Headline>
+          {/* <Headline>Hey!</Headline> */}
           <View style={{ height: "1.25%" }} />
           <Image
             source={require("../../../assets/ekemini-spoof.png")}
             style={{ height: 200, width: 200 }}
           />
           <Title>Ekemini Bassey</Title>
-          {/* put Nigerian and UK flag */}
           <View style={{ flexDirection: "row" }}>
             <Image
               source={require("../../../assets/nigeria.png")}
@@ -38,10 +36,10 @@ function MyProfile({ navigation }) {
         </View>
         <View style={{ height: "2.5%" }} />
         <Caption style={{ textAlign: "center" }}>
-          I am a Software developer currently transitioning into Application
-          Security. Still want to be in the Software development area because
-          there is still so much to learn. I am proficient in Javascript,
-          Python, C, Assembly. I can{" "}
+          Hey, I am a Software developer currently transitioning into
+          Application Security. Still want to be in the Software development
+          area because there is still so much to learn. I am proficient in
+          Javascript, Python, C, Assembly. I can{" "}
           <Text style={{ fontStyle: "italic" }}>read and understand</Text> Java.
         </Caption>
         {/* <Caption>
@@ -72,8 +70,6 @@ function MyProfile({ navigation }) {
           />
         </>
       </AppSafeAreaView>
-
-      {/* put icon beside links */}
     </>
   );
 }

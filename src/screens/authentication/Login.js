@@ -4,7 +4,6 @@ import { View, StyleSheet } from "react-native";
 import {
   Headline,
   Paragraph,
-  TextInput,
   Button,
   Portal,
   Snackbar,
@@ -25,7 +24,6 @@ function Login({ navigation }) {
 
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm();
