@@ -30,7 +30,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer theme={theme}>
           <PaperProvider theme={theme}>
-            <MyProfile />
+            <Overview />
           </PaperProvider>
         </NavigationContainer>
       </PersistGate>

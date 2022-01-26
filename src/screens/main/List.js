@@ -3,26 +3,25 @@ import React, { useState } from "react";
 import { View, StyleSheet, Platform, Dimensions } from "react-native";
 import { FlatList, DrawerLayout } from "react-native-gesture-handler";
 import { Appbar, Searchbar, Drawer, Menu, Divider } from "react-native-paper";
-import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import Taski from "../../../assets/taski.svg";
 import TaskiEmpty from "../../../assets/taskiEmpty.svg";
 import Todo from "../../components/list/Todo";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
+import SwipeableRow from "../../components/reusables/SwipeableRow";
 
 const dummydata = [
   {
     id: 1,
-    title: "Client Meetings",
+    title: "Handerline",
     timeDate: "March 16, 2021 — 12.00 PM",
-    notes:
-      "Asking for some insight from marketing perspective. Take notes and more.",
+    notes: "We will miss you. Take notes and more.",
     tag: "Urgent",
   },
   {
     id: 2,
-    title: "Investing Some Money",
+    title: "Investing in Matt",
     timeDate: "Today — 09.00",
-    notes: "Daily Investing for APPL.",
+    notes: "To get the lady at the bar.",
     tag: "Normal",
   },
   {
@@ -171,12 +170,14 @@ function List({ navigation }) {
             }}
             renderItem={({ item }) => {
               return (
-                <Todo
-                  title={item.title}
-                  timeDate={item.timeDate}
-                  notes={item.notes}
-                  tag={item.tag}
-                />
+                <SwipeableRow>
+                  <Todo
+                    title={item.title}
+                    timeDate={item.timeDate}
+                    notes={item.notes}
+                    tag={item.tag}
+                  />
+                </SwipeableRow>
               );
             }}
           />
