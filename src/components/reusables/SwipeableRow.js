@@ -1,28 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Animated, I18nManager } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { Text } from "react-native-paper";
 
-const RenderLeftAction = ({ progress, dragX }) => {
-  const trans = dragX.interpolate({
-    inputRange: [0, 50, 100, 101],
-    outputRange: [-20, 0, 0, 1],
-  });
+const RenderLeftAction = ({ pressHandler }) => {
   return (
-    <RectButton>
+    <RectButton onPress={pressHandler}>
       <Animated.Text>Archive</Animated.Text>
     </RectButton>
   );
 };
 
-const RenderRightAction = ({ text, color, x, progress, pressHandler }) => {
-  const trans = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [x, 0],
-  });
-  //   const pressHandler = () => {
-  //     close();
-  //     alert(text);
-  //   };
+const RenderRightAction = ({ text, color, pressHandler }) => {
   return (
     <Animated.View style={{ flex: 1, transform: [{ translateX: 0 }] }}>
       <RectButton
@@ -35,37 +24,38 @@ const RenderRightAction = ({ text, color, x, progress, pressHandler }) => {
   );
 };
 
-const customRightTaskiAction = (progress) => {
+const CustomRightTaskiAction = ({ pressHandlerOne, pressHandlerTwo }) => {
   return (
     <View
       style={{
         width: 192,
         flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+        paddingVertical: "5%",
+        borderRadius: 5,
       }}
     >
       <RenderRightAction
-        text="More"
+        text="Edit"
         color="#C8C7CD"
         x={192}
-        progress={progress}
+        pressHandler={pressHandlerOne}
       />
       <RenderRightAction
-        text="Flag"
-        color="#ffab00"
-        x={128}
-        progress={progress}
-      />
-      <RenderRightAction
-        text="More"
+        text="Delete"
         color="#dd2c00"
         x={64}
-        progress={progress}
+        pressHandler={pressHandlerTwo}
       />
     </View>
   );
 };
 
-function SwipeableRow({ children }) {
+function SwipeableRow({
+  children,
+  pressHandler,
+  pressHandlerOne,
+  pressHandlerTwo,
+}) {
   return (
     <Swipeable
       //   ref={this.updateRef}
@@ -73,7 +63,12 @@ function SwipeableRow({ children }) {
       leftThreshold={30}
       rightThreshold={40}
       renderLeftActions={RenderLeftAction}
-      renderRightActions={RenderRightAction}
+      renderRightActions={() =>
+        CustomRightTaskiAction({
+          pressHandlerOne: pressHandlerOne,
+          pressHandlerTwo: pressHandlerTwo,
+        })
+      }
     >
       {children}
     </Swipeable>
