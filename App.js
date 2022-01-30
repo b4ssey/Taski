@@ -11,7 +11,7 @@ import {
 } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor, store } from "./src/store/Store";
+import { store } from "./src/store/store";
 import Authentication from "./src/components/navigation/Authentication";
 import Overview from "./src/components/navigation/Overview";
 import Verification from "./src/screens/authentication/Verification";
@@ -27,13 +27,13 @@ import MyProfile from "./src/screens/main/MyProfile";
 export default function App() {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer theme={theme}>
-          <PaperProvider theme={theme}>
-            <Overview />
-          </PaperProvider>
-        </NavigationContainer>
-      </PersistGate>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+      <NavigationContainer theme={theme}>
+        <PaperProvider theme={theme}>
+          <Authentication />
+        </PaperProvider>
+      </NavigationContainer>
+      {/* </PersistGate> */}
     </Provider>
   );
 }

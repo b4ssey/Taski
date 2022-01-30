@@ -12,6 +12,7 @@ import {
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
+import { registerUser } from "../../store/ducks/users";
 
 function Register({ navigation }) {
   const [checked, setChecked] = React.useState(false);
@@ -20,6 +21,18 @@ function Register({ navigation }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const dispatch = useDispatch();
+
+  const OnHandleSubmit = (data) => {
+    dispatch(
+      registerUser({
+        name: data.fullname,
+        email: data.email,
+        password: data.password,
+      })
+    );
+  };
+
   return (
     <AppKBAreaView KAVstyle={{}}>
       <View>
@@ -98,7 +111,7 @@ function Register({ navigation }) {
           uppercase={false}
           onPress={() => {
             navigation.navigate("verification");
-            handleSubmit((data) => console.log(data));
+            handleSubmit(OnHandleSubmit);
           }}
         >
           Register

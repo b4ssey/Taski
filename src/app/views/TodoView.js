@@ -12,7 +12,7 @@ import {
   Checkbox,
 } from "react-native-paper";
 import TodoModel from "../models/TodoModel";
-import { store } from "../../store/Store";
+import { store } from "../../store/store";
 
 export const TodoView = (props) => {
   const {

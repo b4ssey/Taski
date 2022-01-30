@@ -49,10 +49,10 @@ function Verification({ navigation }) {
           /> */}
         </>
         <View style={{ height: "10%" }} />
-        <View style={{ alignItems: "center" }}>
+        {/* <View style={{ alignItems: "center" }}>
           <Paragraph>Didn’t Receive the verification code?</Paragraph>
           <Button uppercase={false}>Resend Code</Button>
-        </View>
+        </View> */}
       </View>
 
       <Button

@@ -1,5 +1,5 @@
 export default {
-  base_url: "localhost:3000/",
-  login: "login",
-  register: "register",
+  base_url: "https://fast-island-25753.herokuapp.com/",
+  login: "api/auth",
+  register: "api/users",
 };

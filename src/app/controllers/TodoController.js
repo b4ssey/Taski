@@ -1,4 +1,4 @@
-import { store } from "../../store/Store";
+import { store } from "../../store/store";
 
 /**
  * if you have an instance of Strapi running on your local

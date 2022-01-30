@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet } from "react-native";
 import {
   Headline,
@@ -14,13 +15,24 @@ import UserModel from "../../app/models/UserModel";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
+import { loginUser } from "../../store/ducks/users";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+
+  const HandleOnSubmit = (data) => {
+    dispatch(
+      loginUser({
+        email: data.email,
+        password: data.password,
+      })
+    );
+  };
 
   const {
     control,
@@ -28,7 +40,6 @@ function Login({ navigation }) {
     formState: { errors },
   } = useForm();
 
-  console.log("na them", errors);
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
       <Taski width={105} style={{ alignSelf: "center" }} />
@@ -83,7 +94,7 @@ function Login({ navigation }) {
         <View style={styles.divider} />
         <Button
           style={styles.btn}
-          onPress={handleSubmit((data) => console.log(data))}
+          onPress={handleSubmit(HandleOnSubmit)}
           mode="contained"
           uppercase={false}
         >

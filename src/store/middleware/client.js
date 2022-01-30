@@ -1,3 +1,4 @@
+import baseURL from "../../utils/endpoint";
 export async function client(endpoint, { body, ...customConfig } = {}) {
   const headers = { "Content-Type": "application/json" };
 
@@ -9,26 +10,20 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
       ...customConfig.headers,
     },
   };
-
   if (body) {
     config.body = JSON.stringify(body);
   }
-  let result = {};
-  let data;
+
+  const fullURL = baseURL + endpoint;
   try {
-    const response = await window.fetch(endpoint, config);
-    result.response = response;
-    try {
-      data = await response.json();
-    } catch (error) {
-      data = await response;
-    }
-    result.data = data;
+    const response = await window.fetch(fullURL, config);
     if (response.ok) {
-      return result;
+      return await response.json();
+    } else {
+      const errorMessage = await response.text();
+      return Promise.reject(new Error(errorMessage));
     }
-    throw new Error(response.statusText);
   } catch (err) {
-    return Promise.reject(err.message ? err.message : data);
+    return Promise.reject(err.message ? err.message : response);
   }
 }

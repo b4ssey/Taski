@@ -4,23 +4,25 @@ import endpoint from "../../utils/endpoint";
 
 export const loginUser = createAsyncThunk(
   "users/loginUser",
-  async (state, { getState }) => {
-    const { response, data } = await client(
-      `${endpoint.base_url + endpoint.login}`,
-      { body: state }
-    );
-    return response;
+  async (state, { rejectWithValue }) => {
+    try {
+      return await client(`${endpoint.login}`, {
+        body: state,
+      });
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const registerUser = createAsyncThunk(
   "users/registerUser",
-  async (state, { getState }) => {
-    const { response, data } = await client(
-      `${endpoint.base_url + endpoint.register}`,
-      { body: state }
-    );
-    return response;
+  async (state, { rejectWithValue }) => {
+    try {
+      return await client(`${endpoint.register}`, { body: state });
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
@@ -48,9 +50,12 @@ const slice = createSlice({
       state.isFetching = true;
     },
     [loginUser.rejected]: (state, { payload }) => {
+      console.log(JSON.stringify(payload));
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.message;
     },
   },
 });
+
+export default slice.reducer;

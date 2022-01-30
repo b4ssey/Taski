@@ -18,7 +18,7 @@ import kebab from "../../../assets/kebab.svg";
 import taskiHeader from "../../../assets/taskiHeader.svg";
 import emptyState from "../../../assets/emptyState.svg";
 import { SvgXml } from "react-native-svg";
-import { store } from "../../store/Store";
+import { store } from "../../store/store";
 import TodoModel from "../../app/models/TodoModel";
 import TodoView from "../../app/views/TodoView";
 

@@ -4,21 +4,23 @@ import { createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import rootReducer from "./userSlice";
 import userReducer from "./ducks/users";
+import todoReducer from "./ducks/todos";
 
-const persistConfig = { key: "root", storage: AsyncStorage };
+// const persistConfig = { key: "root", storage: AsyncStorage };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Create a Redux store holding the state of your app.
 // Its API is { subscribe, dispatch, getState }.
-const createdStore = createStore(persistedReducer);
-const createdPersistor = persistStore(createdStore);
+// const createdStore = createStore(persistedReducer);
+// const createdPersistor = persistStore(createdStore);
 
-export const store = createdStore;
-export const persistor = createdPersistor;
+// export const store = createdStore;
+// export const persistor = createdPersistor;
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     user: userReducer,
+    todo: todoReducer,
   },
 });
