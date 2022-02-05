@@ -24,6 +24,7 @@ function RHFInput({
       mode={mode}
       value={field.value}
       onChangeText={field.onChange}
+      autoCapitalize="none"
     />
   );
 }

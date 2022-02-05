@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
         body: state,
       });
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.response);
     }
   }
 );
@@ -50,10 +50,10 @@ const slice = createSlice({
       state.isFetching = true;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      console.log(JSON.stringify(payload));
+      // console.log(JSON.stringify(payload));
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload;
     },
   },
 });

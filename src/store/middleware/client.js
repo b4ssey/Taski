@@ -1,4 +1,4 @@
-import baseURL from "../../utils/endpoint";
+import ndpnt from "../../utils/endpoint";
 export async function client(endpoint, { body, ...customConfig } = {}) {
   const headers = { "Content-Type": "application/json" };
 
@@ -14,9 +14,8 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
     config.body = JSON.stringify(body);
   }
 
-  const fullURL = baseURL + endpoint;
   try {
-    const response = await window.fetch(fullURL, config);
+    const response = await window.fetch(ndpnt.base_url + endpoint, config);
     if (response.ok) {
       return await response.json();
     } else {
