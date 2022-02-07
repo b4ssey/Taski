@@ -9,19 +9,8 @@ const Stack = createNativeStackNavigator();
 
 const Root = () => {
   const { token } = useSelector((state) => state.user);
-
-  return (
-    <Stack.Navigator
-      initialRouteName="authentication"
-      screenOptions={{ headerShown: false }}
-    >
-      {!token ? (
-        <Stack.Screen name="authentication" component={Authentication} />
-      ) : (
-        <Stack.Screen name="overview" component={Overview} />
-      )}
-    </Stack.Navigator>
-  );
+  console.log("root", token);
+  return <>{!token ? <Authentication /> : <Overview />}</>;
 };
 
 export default Root;

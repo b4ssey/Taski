@@ -199,18 +199,18 @@ function List({ navigation }) {
             }}
             renderItem={({ item }) => {
               return (
-                <SwipeableRow
-                  // pressHandler={showDialogDel}
-                  pressHandlerOne={showDialogEd}
-                  pressHandlerTwo={showDialogDel}
-                >
-                  <Todo
-                    title={item.title}
-                    timeDate={item.timeDate}
-                    notes={item.notes}
-                    tag={item.tag}
-                  />
-                </SwipeableRow>
+                // <SwipeableRow
+                //   // pressHandler={showDialogDel}
+                //   pressHandlerOne={showDialogEd}
+                //   pressHandlerTwo={showDialogDel}
+                // >
+                <Todo
+                  title={item.title}
+                  timeDate={item.timeDate}
+                  notes={item.notes}
+                  tag={item.tag}
+                />
+                // </SwipeableRow>
               );
             }}
           />
@@ -265,19 +265,6 @@ function List({ navigation }) {
           </Dialog>
         </Portal>
       </>
-
-      {/* <DrawerLayout
-        drawerWidth={200}
-        drawerPosition={DrawerLayout.positions.Right}
-        drawerType="front"
-        drawerBackgroundColor="#ddd"
-        renderNavigationView={renderDrawer}
-        onDrawerSlide={handleDrawerSlide}
-      >
-        <View>
-          <Text>Hello, it's me</Text>
-        </View>
-      </DrawerLayout> */}
     </>
   );
 }

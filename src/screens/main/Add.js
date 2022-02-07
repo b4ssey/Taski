@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Platform } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Button,
   Headline,
   Menu,
   Paragraph,
-  TextInput,
   Title,
   ToggleButton,
   IconButton,
@@ -17,6 +17,7 @@ import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import { format } from "date-fns";
 import RHFInput from "../../components/reusables/RHFInput";
 import { useForm } from "react-hook-form";
+import { createTodo } from "../../store/ducks/todos";
 
 function Add() {
   const [visible, setVisible] = useState(false);
@@ -28,6 +29,11 @@ function Add() {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const formatedDate = format(date, "MMM d, yyyy - p");
+  const dispatch = useDispatch();
+
+  const { errorMessage, isError, isFetching } = useSelector(
+    (state) => state.user
+  );
 
   const {
     control,
@@ -35,6 +41,16 @@ function Add() {
     formState: { errors },
   } = useForm();
 
+  const HandleOnSubmit = (data) => {
+    dispatch(
+      createTodo({
+        title: data.title,
+        notes: data.notes,
+        tag,
+        date,
+      })
+    );
+  };
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -62,35 +78,29 @@ function Add() {
         <Headline style={{ fontWeight: "700", alignSelf: "center" }}>
           Add New Task
         </Headline>
+        <>
+          <RHFInput
+            name="title"
+            control={control}
+            label="Task Title"
+            placeholder="Input task title…"
+            mode="outlined"
+            rules={{ required: "title is required" }}
+          />
+          <View style={{ height: "5%" }} />
+        </>
+        <>
+          <RHFInput
+            name="notes"
+            control={control}
+            label="Notes"
+            placeholder="Input task notes…"
+            mode="outlined"
+            rules={{ required: "notes is required" }}
+          />
+          <View style={{ height: "5%" }} />
+        </>
 
-        {/* <TextInput
-          label="Task Title"
-          placeholder="Input task title…"
-          mode="outlined"
-        /> */}
-        <RHFInput
-          name="title"
-          control={control}
-          label="Task Title"
-          placeholder="Input task title…"
-          mode="outlined"
-          rules={{ required: "title is required" }}
-        />
-        <View style={{ height: "5%" }} />
-        {/* <TextInput
-          label="Notes"
-          placeholder="Input task notes…"
-          mode="outlined"
-        /> */}
-        <RHFInput
-          name="notes"
-          control={control}
-          label="Notes"
-          placeholder="Input task notes…"
-          mode="outlined"
-          rules={{ required: "notes is required" }}
-        />
-        <View style={{ height: "5%" }} />
         <Paragraph>Tag</Paragraph>
         <View style={{ height: "2.5%" }} />
         <Menu
@@ -159,7 +169,7 @@ function Add() {
         <Button
           mode="contained"
           uppercase={false}
-          onPress={handleSubmit((data) => console.log(data))}
+          onPress={handleSubmit(HandleOnSubmit)}
         >
           Save Task
         </Button>

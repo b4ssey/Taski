@@ -10,6 +10,7 @@ import {
   Snackbar,
   Caption,
   HelperText,
+  ActivityIndicator,
 } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
@@ -18,7 +19,9 @@ import { loginUser } from "../../store/ducks/users";
 
 function Login({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const { errorMessage, isError } = useSelector((state) => state.user);
+  const { errorMessage, isError, isFetching } = useSelector(
+    (state) => state.user
+  );
 
   const dispatch = useDispatch();
   const HandleOnSubmit = (data) => {
@@ -34,9 +37,10 @@ function Login({ navigation }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   useEffect(() => {
     if (isError) setVisible(true);
-  }, [isError]);
+  }, []);
 
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
@@ -51,15 +55,15 @@ function Login({ navigation }) {
           Join us now and get your daily things right
         </Caption>
       </View>
-
+      <View style={styles.divider} />
       <>
-        <View style={styles.divider} />
         <RHFInput
           name="email"
           control={control}
           label="Email Address"
           placeholder="your@email.com"
           mode="outlined"
+          autoCapitalize="none"
           rules={{ required: "Email is required" }}
         />
         {errors.email ? (
@@ -76,6 +80,7 @@ function Login({ navigation }) {
           label="Password"
           placeholder="Input password here..."
           mode="outlined"
+          autoCapitalize="none"
           rules={{ required: "Password is required" }}
         />
         {errors.password ? (
@@ -87,14 +92,18 @@ function Login({ navigation }) {
 
       <>
         <View style={styles.divider} />
-        <Button
-          style={styles.btn}
-          onPress={handleSubmit(HandleOnSubmit)}
-          mode="contained"
-          uppercase={false}
-        >
-          Login
-        </Button>
+        {isFetching ? (
+          <ActivityIndicator animating={true} />
+        ) : (
+          <Button
+            style={styles.btn}
+            onPress={handleSubmit(HandleOnSubmit)}
+            mode="contained"
+            uppercase={false}
+          >
+            Login
+          </Button>
+        )}
         <View style={[styles.rowView, { justifyContent: "center" }]}>
           <Paragraph>Don't have Account?</Paragraph>
           <Button
