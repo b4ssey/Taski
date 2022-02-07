@@ -20,7 +20,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
       return await response.json();
     } else {
       const errorMessage = await response.text();
-      return Promise.reject(new Error(errorMessage));
+      return Promise.reject(errorMessage);
     }
   } catch (err) {
     return Promise.reject(err.message ? err.message : response);

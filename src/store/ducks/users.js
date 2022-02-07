@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
         body: state,
       });
     } catch (err) {
-      return rejectWithValue(err.response);
+      return rejectWithValue(err);
     }
   }
 );
@@ -36,21 +36,34 @@ const slice = createSlice({
     isSuccess: false,
     isError: false,
     errorMessage: "",
+    successMessage: "",
   },
   reducers: {},
   extraReducers: {
     [loginUser.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      state.email = payload.user.email;
-      state.username = payload.user.name;
-      state.token = payload.user.token;
+      state.email = payload.email;
+      state.username = payload.name;
+      state.token = payload.token;
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      // console.log(JSON.stringify(payload));
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload;
+    },
+    [registerUser.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.successMessage = payload;
+    },
+    [registerUser.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [registerUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload;

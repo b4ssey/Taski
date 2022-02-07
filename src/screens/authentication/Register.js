@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet } from "react-native";
 import {
   Button,
@@ -72,15 +73,16 @@ function Register({ navigation }) {
           placeholder="Input your phone number here..."
           mode="outlined"
         /> */}
-        <RHFInput
+        {/* <RHFInput
           name="number"
           control={control}
           label="Phone Number"
           placeholder="Input your phone number here..."
           mode="outlined"
+          keyboardType="phone-pad"
           rules={{ required: "number is required" }}
-        />
-        <View style={{ height: "2.5%" }} />
+        /> */}
+        {/* <View style={{ height: "2.5%" }} /> */}
         {/* <TextInput
           label="Password"
           placeholder="Input password here..."
@@ -109,10 +111,10 @@ function Register({ navigation }) {
         <Button
           mode="contained"
           uppercase={false}
-          onPress={() => {
-            navigation.navigate("verification");
-            handleSubmit(OnHandleSubmit);
-          }}
+          onPress={
+            // navigation.navigate("verification");
+            handleSubmit(OnHandleSubmit)
+          }
         >
           Register
         </Button>

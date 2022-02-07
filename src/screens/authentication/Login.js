@@ -11,9 +11,7 @@ import {
   Caption,
 } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
-import UserModel from "../../app/models/UserModel";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
-import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
 import { loginUser } from "../../store/ducks/users";
 

@@ -10,6 +10,7 @@ function RHFInput({
   control,
   name,
   rules = { required: "false" },
+  ...props
 }) {
   const { field } = useController({
     control,
@@ -25,6 +26,7 @@ function RHFInput({
       value={field.value}
       onChangeText={field.onChange}
       autoCapitalize="none"
+      {...props}
     />
   );
 }
