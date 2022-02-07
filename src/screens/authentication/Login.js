@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet } from "react-native";
@@ -9,6 +9,7 @@ import {
   Portal,
   Snackbar,
   Caption,
+  HelperText,
 } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
@@ -16,13 +17,10 @@ import RHFInput from "../../components/reusables/RHFInput";
 import { loginUser } from "../../store/ducks/users";
 
 function Login({ navigation }) {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false);
-  const dispatch = useDispatch();
+  const { errorMessage, isError } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
   const HandleOnSubmit = (data) => {
     dispatch(
       loginUser({
@@ -31,12 +29,14 @@ function Login({ navigation }) {
       })
     );
   };
-
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  useEffect(() => {
+    if (isError) setVisible(true);
+  }, [isError]);
 
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
@@ -62,15 +62,14 @@ function Login({ navigation }) {
           mode="outlined"
           rules={{ required: "Email is required" }}
         />
-        {/* <TextInput
-          label="Email Address"
-          placeholder="your@email.com"
-          mode="outlined"
-        /> */}
+        {errors.email ? (
+          <HelperText type="error">{errors?.email?.message}</HelperText>
+        ) : (
+          <View style={styles.divider} />
+        )}
       </>
 
       <>
-        <View style={styles.divider} />
         <RHFInput
           name="password"
           control={control}
@@ -79,13 +78,11 @@ function Login({ navigation }) {
           mode="outlined"
           rules={{ required: "Password is required" }}
         />
-        {/* <TextInput
-          onChangeText={(text) => setPassword(text)}
-          label="Password"
-          placeholder="Input password here..."
-          mode="outlined"
-          secureTextEntry
-        /> */}
+        {errors.password ? (
+          <HelperText type="error">{errors?.password?.message}</HelperText>
+        ) : (
+          <View style={styles.divider} />
+        )}
       </>
 
       <>
@@ -109,15 +106,13 @@ function Login({ navigation }) {
             Register
           </Button>
         </View>
-
-        <>
-          <Portal>
-            <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
-              {(errors.email && errors.email.message) ||
-                (errors.password && errors.password.message)}
-            </Snackbar>
-          </Portal>
-        </>
+      </>
+      <>
+        <Portal>
+          <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
+            {errorMessage}
+          </Snackbar>
+        </Portal>
       </>
     </AppKBAreaView>
   );

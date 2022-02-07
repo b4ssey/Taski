@@ -38,7 +38,11 @@ const slice = createSlice({
     errorMessage: "",
     successMessage: "",
   },
-  reducers: {},
+  reducers: {
+    userLoggedout: (state) => {
+      state.token = "";
+    },
+  },
   extraReducers: {
     [loginUser.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
@@ -71,4 +75,8 @@ const slice = createSlice({
   },
 });
 
+const { userLoggedout } = slice.actions;
+
 export default slice.reducer;
+
+export const logoutUser = () => userLoggedout();

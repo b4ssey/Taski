@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet, Platform, Dimensions } from "react-native";
 import { FlatList, DrawerLayout } from "react-native-gesture-handler";
 import {
@@ -21,6 +22,7 @@ import Todo from "../../components/list/Todo";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
 import SwipeableRow from "../../components/reusables/SwipeableRow";
+import { logoutUser } from "../../store/ducks/users";
 
 const dummydata = [
   {
@@ -85,6 +87,8 @@ function List({ navigation }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const dispatch = useDispatch();
 
   const renderDrawer = () => {
     return (
@@ -163,7 +167,7 @@ function List({ navigation }) {
           >
             <Menu.Item onPress={() => {}} title="Refresh" />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Logout" />
+            <Menu.Item onPress={() => dispatch(logoutUser())} title="Logout" />
           </Menu>
         </Appbar>
 
