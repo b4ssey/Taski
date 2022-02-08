@@ -11,6 +11,9 @@ import {
   IconButton,
   Card,
   Caption,
+  HelperText,
+  Snackbar,
+  ActivityIndicator,
 } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
@@ -24,6 +27,8 @@ function Add() {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   const [tag, setTag] = useState(null);
+  const [tagError, setTagError] = useState(false);
+  const [dateError, setDateError] = useState(false);
   const [value, setValue] = useState("left");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
@@ -42,14 +47,18 @@ function Add() {
   } = useForm();
 
   const HandleOnSubmit = (data) => {
-    dispatch(
-      createTodo({
-        title: data.title,
-        notes: data.notes,
-        tag,
-        date,
-      })
-    );
+    if (!tag) setTagError(true);
+    else if (!date) setDateError(true);
+    else {
+      dispatch(
+        createTodo({
+          title: data.title,
+          notes: data.notes,
+          tag,
+          date,
+        })
+      );
+    }
   };
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -70,6 +79,10 @@ function Add() {
     showMode("time");
   };
 
+  useEffect(() => {
+    if (isError) setVisible(true);
+  }, [isFetching]);
+
   return (
     <>
       <AppKBAreaView
@@ -87,7 +100,11 @@ function Add() {
             mode="outlined"
             rules={{ required: "title is required" }}
           />
-          <View style={{ height: "5%" }} />
+          {errors.title ? (
+            <HelperText type="error">{errors?.title?.message}</HelperText>
+          ) : (
+            <View style={{ height: "2.5%" }} />
+          )}
         </>
         <>
           <RHFInput
@@ -98,7 +115,11 @@ function Add() {
             mode="outlined"
             rules={{ required: "notes is required" }}
           />
-          <View style={{ height: "5%" }} />
+          {errors.notes ? (
+            <HelperText type="error">{errors?.notes?.message}</HelperText>
+          ) : (
+            <View style={{ height: "5%" }} />
+          )}
         </>
 
         <Paragraph>Tag</Paragraph>
@@ -166,13 +187,24 @@ function Add() {
           )}
         </Card>
         <View style={{ height: "2.5%" }} />
-        <Button
-          mode="contained"
-          uppercase={false}
-          onPress={handleSubmit(HandleOnSubmit)}
-        >
-          Save Task
-        </Button>
+        {isFetching ? (
+          <ActivityIndicator animating={true} />
+        ) : (
+          <Button
+            mode="contained"
+            uppercase={false}
+            onPress={handleSubmit(HandleOnSubmit)}
+          >
+            Save Task
+          </Button>
+        )}
+        <>
+          <Portal>
+            <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
+              {errorMessage || dateError || tagError}
+            </Snackbar>
+          </Portal>
+        </>
       </AppKBAreaView>
     </>
   );
