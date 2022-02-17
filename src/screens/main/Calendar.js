@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Agenda } from "react-native-calendars";
 import Todo from "../../components/list/Todo";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
-import { format } from "date-fns";
+import format from "date-fns/format";
 import { View } from "react-native-web";
 
 function Calender(props) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -14,10 +14,12 @@ import {
   HelperText,
   Snackbar,
   ActivityIndicator,
+  Portal,
 } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
-import { format } from "date-fns";
+import format from "date-fns/format";
+import differenceInSeconds from "date-fns/differenceInSeconds";
 import RHFInput from "../../components/reusables/RHFInput";
 import { useForm } from "react-hook-form";
 import { createTodo } from "../../store/ducks/todos";
@@ -27,19 +29,22 @@ function Add() {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   const [tag, setTag] = useState(null);
-  const [tagError, setTagError] = useState(false);
-  const [dateError, setDateError] = useState(false);
+  const [tagError, setTagError] = useState("");
+  const [dateError, setDateError] = useState("");
   const [value, setValue] = useState("left");
   const [date, setDate] = useState(new Date());
+  const [prevDate, setPrevDate] = useState(null);
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const formatedDate = format(date, "MMM d, yyyy - p");
   const dispatch = useDispatch();
 
   const { errorMessage, isError, isFetching } = useSelector(
-    (state) => state.user
+    (state) => state.todo
   );
-
+  // const { errorMessage, isError, isFetching } = useSelector(
+  //   (state) => state.todo
+  // );
   const {
     control,
     handleSubmit,
@@ -47,22 +52,26 @@ function Add() {
   } = useForm();
 
   const HandleOnSubmit = (data) => {
-    if (!tag) setTagError(true);
-    else if (!date) setDateError(true);
-    else {
-      dispatch(
-        createTodo({
-          title: data.title,
-          notes: data.notes,
-          tag,
-          date,
-        })
-      );
-    }
+    if (!tag) return setTagError("Tag not set.");
+    if (!differenceInSeconds(prevDate, date))
+      return setDateError("Date not set.");
+    console.log("====================================");
+    console.log({ title: data.title, notes: data.notes, tag, date });
+    console.log("====================================");
+    dispatch(
+      createTodo({
+        title: data.title,
+        notes: data.notes,
+        tag,
+        date,
+      })
+    );
   };
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
+    setPrevDate(date);
     setDate(currentDate);
   };
 
@@ -81,7 +90,9 @@ function Add() {
 
   useEffect(() => {
     if (isError) setVisible(true);
-  }, [isFetching]);
+    if (dateError) setVisible(true);
+    if (tagError) setVisible(true);
+  }, [isFetching, dateError, tagError]);
 
   return (
     <>
@@ -91,6 +102,7 @@ function Add() {
         <Headline style={{ fontWeight: "700", alignSelf: "center" }}>
           Add New Task
         </Headline>
+
         <>
           <RHFInput
             name="title"

@@ -9,7 +9,6 @@ const Stack = createNativeStackNavigator();
 
 const Root = () => {
   const { token } = useSelector((state) => state.user);
-  console.log("root", token);
   return <>{!token ? <Authentication /> : <Overview />}</>;
 };
 

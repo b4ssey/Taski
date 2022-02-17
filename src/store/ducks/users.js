@@ -32,6 +32,7 @@ const slice = createSlice({
     username: "",
     email: "",
     token: "",
+    id: "",
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -50,6 +51,7 @@ const slice = createSlice({
       state.email = payload.email;
       state.username = payload.name;
       state.token = payload.token;
+      state.id = payload.id;
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;

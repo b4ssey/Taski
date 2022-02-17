@@ -40,7 +40,9 @@ function Login({ navigation }) {
 
   useEffect(() => {
     if (isError) setVisible(true);
-  }, []);
+  }, [isFetching]);
+
+  console.log(errors, errorMessage, isError, isFetching);
 
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
