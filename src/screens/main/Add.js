@@ -16,6 +16,7 @@ import {
   ActivityIndicator,
   Portal,
 } from "react-native-paper";
+import LottieView from "lottie-react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppKBAreaView from "../../components/reusables/AppKBAreaView";
 import format from "date-fns/format";
@@ -42,9 +43,7 @@ function Add() {
   const { errorMessage, isError, isFetching } = useSelector(
     (state) => state.todo
   );
-  // const { errorMessage, isError, isFetching } = useSelector(
-  //   (state) => state.todo
-  // );
+  const { id } = useSelector((state) => state.user);
   const {
     control,
     handleSubmit,
@@ -55,15 +54,13 @@ function Add() {
     if (!tag) return setTagError("Tag not set.");
     if (!differenceInSeconds(prevDate, date))
       return setDateError("Date not set.");
-    console.log("====================================");
-    console.log({ title: data.title, notes: data.notes, tag, date });
-    console.log("====================================");
     dispatch(
       createTodo({
         title: data.title,
-        notes: data.notes,
+        note: data.notes,
+        owner: id,
         tag,
-        date,
+        dateChosen: date,
       })
     );
   };
@@ -90,8 +87,8 @@ function Add() {
 
   useEffect(() => {
     if (isError) setVisible(true);
-    if (dateError) setVisible(true);
-    if (tagError) setVisible(true);
+    // if (dateError) setVisible(true);
+    // if (tagError) setVisible(true);
   }, [isFetching, dateError, tagError]);
 
   return (
@@ -145,10 +142,10 @@ function Add() {
             </Button>
           }
         >
-          <Menu.Item onPress={() => setTag("Urgent")} title="Urgent" />
-          <Menu.Item onPress={() => setTag("High")} title="High" />
-          <Menu.Item onPress={() => setTag("Normal")} title="Normal" />
-          <Menu.Item onPress={() => setTag("Low")} title="Low" />
+          <Menu.Item onPress={() => setTag("urgent")} title="Urgent" />
+          <Menu.Item onPress={() => setTag("high")} title="High" />
+          <Menu.Item onPress={() => setTag("normal")} title="Normal" />
+          <Menu.Item onPress={() => setTag("low")} title="Low" />
         </Menu>
         <View style={{ height: "5%" }} />
         <View style={styles.rows}>
@@ -210,6 +207,7 @@ function Add() {
             Save Task
           </Button>
         )}
+        <LottieView source={require("../../../assets/success1.json")} />
         <>
           <Portal>
             <Snackbar visible={visible} onDismiss={() => setVisible(false)}>

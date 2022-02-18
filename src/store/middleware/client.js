@@ -10,6 +10,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
       ...customConfig.headers,
     },
   };
+
   if (body) {
     config.body = JSON.stringify(body);
   }

@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
+
 export default function authheader() {
-  if (user && user.accesstoken) {
-    return { "x-access-token": user.accessToken };
+  const { token, id } = useSelector((state) => state.user);
+  if (id && token) {
+    console.log("from autheader", token);
+    return { "x-access-token": token };
   } else {
     return;
   }
