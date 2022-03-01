@@ -14,16 +14,16 @@ function Todo({ title, timeDate, notes, tag }) {
   const [bgColor, setBgColor] = useState("");
   useEffect(() => {
     switch (tag) {
-      case "Urgent":
+      case "urgent":
         setBgColor("#F06868");
         break;
-      case "High":
+      case "high":
         setBgColor("#FAB57A");
         break;
-      case "Normal":
+      case "normal":
         setBgColor("#80D6FF");
         break;
-      case "Low":
+      case "low":
         setBgColor("#EDF798");
         break;
       default:

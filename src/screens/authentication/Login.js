@@ -42,8 +42,6 @@ function Login({ navigation }) {
     if (isError) setVisible(true);
   }, [isFetching]);
 
-  console.log(errors, errorMessage, isError, isFetching);
-
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
       <Taski width={105} style={{ alignSelf: "center" }} />

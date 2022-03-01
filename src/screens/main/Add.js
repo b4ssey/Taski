@@ -25,7 +25,7 @@ import RHFInput from "../../components/reusables/RHFInput";
 import { useForm } from "react-hook-form";
 import { createTodo } from "../../store/ducks/todos";
 
-function Add() {
+function Add({ navigation }) {
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -40,7 +40,7 @@ function Add() {
   const formatedDate = format(date, "MMM d, yyyy - p");
   const dispatch = useDispatch();
 
-  const { errorMessage, isError, isFetching } = useSelector(
+  const { errorMessage, isError, isFetching, isSuccess } = useSelector(
     (state) => state.todo
   );
   const { id } = useSelector((state) => state.user);
@@ -198,6 +198,11 @@ function Add() {
         <View style={{ height: "2.5%" }} />
         {isFetching ? (
           <ActivityIndicator animating={true} />
+        ) : isSuccess ? (
+          <LottieView
+            source={require("../../../assets/success2.json")}
+            onAnimationFinish={() => navigation.navigate()}
+          />
         ) : (
           <Button
             mode="contained"
@@ -207,7 +212,7 @@ function Add() {
             Save Task
           </Button>
         )}
-        <LottieView source={require("../../../assets/success1.json")} />
+
         <>
           <Portal>
             <Snackbar visible={visible} onDismiss={() => setVisible(false)}>

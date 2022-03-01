@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet, Platform, Dimensions } from "react-native";
@@ -23,44 +23,8 @@ import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
 import SwipeableRow from "../../components/reusables/SwipeableRow";
 import { logoutUser } from "../../store/ducks/users";
-
-const dummydata = [
-  {
-    id: 1,
-    title: "Handerline",
-    timeDate: "March 16, 2021 — 12.00 PM",
-    notes: "We will miss you. Take notes and more.",
-    tag: "Urgent",
-  },
-  {
-    id: 2,
-    title: "Investing in Matt",
-    timeDate: "Today — 09.00",
-    notes: "To get the lady at the bar.",
-    tag: "Normal",
-  },
-  {
-    id: 4,
-    title: "Meetings",
-    timeDate: "Tommorrow — 10.00",
-    notes: "Attending meetings",
-    tag: "High",
-  },
-  {
-    id: 5,
-    title: "Client Event",
-    timeDate: "Yesterday — 09.30",
-    notes: "Go for client event",
-    tag: "Normal",
-  },
-  {
-    id: 6,
-    title: "Workout",
-    timeDate: "Today — 09.00",
-    notes: "Take some workout time",
-    tag: "Low",
-  },
-];
+import { getTodos } from "../../store/ducks/todos";
+import { format } from "date-fns";
 
 const handleDrawerSlide = (status) => {
   // outputs a value between 0 and 1
@@ -73,9 +37,13 @@ function List({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
+  const [specTodo, setSpecTodo] = useState([]);
   let drawer = null;
 
-  const showDialogEd = () => setEdit(true);
+  const showDialogEd = (td) => {
+    setEdit(true);
+    setSpecTodo(td);
+  };
   const hideDialogEd = () => setEdit(false);
   const showDialogDel = () => setDel(true);
   const hideDialogDel = () => setDel(false);
@@ -89,6 +57,13 @@ function List({ navigation }) {
   } = useForm();
 
   const dispatch = useDispatch();
+  const { todos } = useSelector((state) => state.todo);
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, []);
+
+  console.log(specTodo);
 
   const renderDrawer = () => {
     return (
@@ -173,8 +148,8 @@ function List({ navigation }) {
 
         <AppSafeAreaView SAVstyle={{ paddingTop: "2.5%" }}>
           <FlatList
-            data={dummydata}
-            keyExtractor={(item) => item.id.toString()}
+            data={todos}
+            keyExtractor={(item) => item._id.toString()}
             ListEmptyComponent={() => {
               return (
                 <View
@@ -199,18 +174,21 @@ function List({ navigation }) {
             }}
             renderItem={({ item }) => {
               return (
-                // <SwipeableRow
-                //   // pressHandler={showDialogDel}
-                //   pressHandlerOne={showDialogEd}
-                //   pressHandlerTwo={showDialogDel}
-                // >
-                <Todo
-                  title={item.title}
-                  timeDate={item.timeDate}
-                  notes={item.notes}
-                  tag={item.tag}
-                />
-                // </SwipeableRow>
+                <SwipeableRow
+                  // pressHandler={showDialogDel}
+                  pressHandlerOne={() => showDialogEd(item)}
+                  pressHandlerTwo={showDialogDel}
+                >
+                  <Todo
+                    title={item.title}
+                    timeDate={format(
+                      Date.parse(item.dateChosen),
+                      "MMM d, yyyy - p"
+                    )}
+                    notes={item.note}
+                    tag={item.tag}
+                  />
+                </SwipeableRow>
               );
             }}
           />
@@ -230,9 +208,10 @@ function List({ navigation }) {
                 name="title"
                 control={control}
                 label="Task Title"
-                placeholder="Input task title…"
+                placeholder={specTodo.title}
                 mode="outlined"
                 rules={{ required: "title is required" }}
+                defaultValue={specTodo.title}
               />
               <View style={{ height: "5%" }} />
               <RHFInput
@@ -242,6 +221,7 @@ function List({ navigation }) {
                 placeholder="Input task notes…"
                 mode="outlined"
                 rules={{ required: "notes is required" }}
+                defaultValue=""
               />
               <View style={{ height: "5%" }} />
               <Dialog.Actions>
