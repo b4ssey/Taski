@@ -31,6 +31,21 @@ export const getTodos = createAsyncThunk(
   }
 );
 
+export const deleteTodo = createAsyncThunk(
+  "todos/deleteTodos",
+  async (state, { rejectWithValue, getState }) => {
+    const { token, id } = getState().user;
+    try {
+      return await client(endpoint.todo + "/" + id + "/" + state, {
+        headers: { "x-auth-token": token },
+        method: "DELETE",
+      });
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const slice = createSlice({
   name: "todos",
   initialState: {
@@ -63,6 +78,19 @@ const slice = createSlice({
       state.isFetching = true;
     },
     [getTodos.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload;
+    },
+    [deleteTodo.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+      // state.todos = payload;
+    },
+    [deleteTodo.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [deleteTodo.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload;

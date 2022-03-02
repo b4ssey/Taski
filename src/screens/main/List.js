@@ -15,6 +15,7 @@ import {
   Dialog,
   Text,
   Button,
+  HelperText,
 } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
 import TaskiEmpty from "../../../assets/taskiEmpty.svg";
@@ -23,7 +24,7 @@ import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
 import SwipeableRow from "../../components/reusables/SwipeableRow";
 import { logoutUser } from "../../store/ducks/users";
-import { getTodos } from "../../store/ducks/todos";
+import { deleteTodo, getTodos } from "../../store/ducks/todos";
 import { format } from "date-fns";
 
 const handleDrawerSlide = (status) => {
@@ -45,10 +46,15 @@ function List({ navigation }) {
     setSpecTodo(td);
   };
   const hideDialogEd = () => setEdit(false);
-  const showDialogDel = () => setDel(true);
+  const showDialogDel = (oo) => {
+    setDel(true);
+    setSpecTodo(oo);
+  };
   const hideDialogDel = () => setDel(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+
+  console.log("hii", specTodo?._id);
 
   const {
     control,
@@ -62,8 +68,6 @@ function List({ navigation }) {
   useEffect(() => {
     dispatch(getTodos());
   }, []);
-
-  console.log(specTodo);
 
   const renderDrawer = () => {
     return (
@@ -177,7 +181,7 @@ function List({ navigation }) {
                 <SwipeableRow
                   // pressHandler={showDialogDel}
                   pressHandlerOne={() => showDialogEd(item)}
-                  pressHandlerTwo={showDialogDel}
+                  pressHandlerTwo={() => showDialogDel(item)}
                 >
                   <Todo
                     title={item.title}
@@ -208,12 +212,13 @@ function List({ navigation }) {
                 name="title"
                 control={control}
                 label="Task Title"
-                placeholder={specTodo.title}
+                placeholder="Title"
                 mode="outlined"
                 rules={{ required: "title is required" }}
                 defaultValue={specTodo.title}
               />
-              <View style={{ height: "5%" }} />
+              <HelperText>Currrent Title: {specTodo.title}</HelperText>
+              {/* <View style={{ height: "5%" }} /> */}
               <RHFInput
                 name="notes"
                 control={control}
@@ -223,7 +228,7 @@ function List({ navigation }) {
                 rules={{ required: "notes is required" }}
                 defaultValue=""
               />
-              <View style={{ height: "5%" }} />
+              {/* <View style={{ height: "5%" }} /> */}
               <Dialog.Actions>
                 <Button onPress={() => console.log("Saved")}>Save</Button>
                 <Button onPress={() => console.log("Discarded")}>
@@ -239,7 +244,9 @@ function List({ navigation }) {
           <Dialog visible={del} onDismiss={hideDialogDel}>
             <Dialog.Title>Are you sure you want to delete?</Dialog.Title>
             <Dialog.Actions>
-              <Button onPress={() => console.log("Yes")}>Yes, Delete.</Button>
+              <Button onPress={() => dispatch(deleteTodo(specTodo?._id))}>
+                Yes, Delete.
+              </Button>
               <Button onPress={() => console.log("No")}>No</Button>
             </Dialog.Actions>
           </Dialog>
