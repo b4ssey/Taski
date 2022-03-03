@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import {
   Headline,
   Paragraph,
@@ -19,7 +19,7 @@ import { loginUser } from "../../store/ducks/users";
 
 function Login({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const { errorMessage, isError, isFetching } = useSelector(
+  const { errorMessage, isError, isFetching, isSuccess } = useSelector(
     (state) => state.user
   );
 
@@ -40,7 +40,7 @@ function Login({ navigation }) {
 
   useEffect(() => {
     if (isError) setVisible(true);
-  }, [isFetching]);
+  }, [isError]);
 
   return (
     <AppKBAreaView SAVstyle={{ justifyContent: "center" }}>
@@ -117,11 +117,13 @@ function Login({ navigation }) {
         </View>
       </>
       <>
-        <Portal>
-          <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
-            {errorMessage}
-          </Snackbar>
-        </Portal>
+        <KeyboardAvoidingView>
+          <Portal>
+            <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
+              {errorMessage}
+            </Snackbar>
+          </Portal>
+        </KeyboardAvoidingView>
       </>
     </AppKBAreaView>
   );

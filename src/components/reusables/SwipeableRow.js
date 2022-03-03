@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Animated, I18nManager } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
-import { Text } from "react-native-paper";
+import { Text, Button } from "react-native-paper";
 
 const RenderLeftAction = ({ pressHandler }) => {
   return (
@@ -11,14 +11,17 @@ const RenderLeftAction = ({ pressHandler }) => {
   );
 };
 
-const RenderRightAction = ({ text, color, pressHandler }) => {
+const RenderRightAction = ({ text, icon, color, pressHandler }) => {
   return (
     <Animated.View style={{ flex: 1, transform: [{ translateX: 0 }] }}>
       <RectButton
         style={[styles.rightAction, { backgroundColor: color }]}
         onPress={pressHandler}
       >
-        <Text style={styles.actionText}>{text}</Text>
+        <Button icon={icon} color="black">
+          {text}
+        </Button>
+        {/* <Text style={styles.actionText}>{text}</Text> */}
       </RectButton>
     </Animated.View>
   );
@@ -35,14 +38,16 @@ const CustomRightTaskiAction = ({ pressHandlerOne, pressHandlerTwo }) => {
       }}
     >
       <RenderRightAction
+        icon="square-edit-outline"
         text="Edit"
-        color="#C8C7CD"
+        // color="#C8C7CD"
         x={192}
         pressHandler={pressHandlerOne}
       />
       <RenderRightAction
+        icon="delete"
         text="Delete"
-        color="#dd2c00"
+        // color="#dd2c00"
         x={64}
         pressHandler={pressHandlerTwo}
       />
@@ -60,9 +65,9 @@ function SwipeableRow({
     <Swipeable
       //   ref={this.updateRef}
       friction={2}
-      leftThreshold={30}
+      // leftThreshold={30}
       rightThreshold={40}
-      renderLeftActions={RenderLeftAction}
+      // renderLeftActions={RenderLeftAction}
       renderRightActions={() =>
         CustomRightTaskiAction({
           pressHandlerOne: pressHandlerOne,

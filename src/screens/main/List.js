@@ -1,8 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { View, StyleSheet, Platform, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Platform,
+  Dimensions,
+  RefreshControl,
+} from "react-native";
 import { FlatList, DrawerLayout } from "react-native-gesture-handler";
 import {
   Appbar,
@@ -13,7 +19,6 @@ import {
   Portal,
   Modal,
   Dialog,
-  Text,
   Button,
   HelperText,
 } from "react-native-paper";
@@ -24,7 +29,7 @@ import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import RHFInput from "../../components/reusables/RHFInput";
 import SwipeableRow from "../../components/reusables/SwipeableRow";
 import { logoutUser } from "../../store/ducks/users";
-import { deleteTodo, getTodos } from "../../store/ducks/todos";
+import { deleteTodo, getTodos, modifyTodo } from "../../store/ducks/todos";
 import { format } from "date-fns";
 
 const handleDrawerSlide = (status) => {
@@ -39,6 +44,14 @@ function List({ navigation }) {
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
   const [specTodo, setSpecTodo] = useState([]);
+  const [refreshing, setRefreshing] = useState(true);
+  const dispatch = useDispatch();
+  const { todos, isFetching } = useSelector((state) => state.todo);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   let drawer = null;
 
   const showDialogEd = (td) => {
@@ -54,18 +67,25 @@ function List({ navigation }) {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  console.log("hii", specTodo?._id);
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const dispatch = useDispatch();
-  const { todos } = useSelector((state) => state.todo);
+  const HandleOnSubmit = (data) => {
+    dispatch(
+      modifyTodo(specTodo._id, {
+        title: data.title,
+        note: data.note,
+        owner: specTodo.owner,
+        tag: specTodo.tag,
+        dateChosen: specTodo.dateChosen,
+      })
+    );
+    hideDialogEd();
+  };
 
   useEffect(() => {
+    dispatch(getTodos());
+    // setRefreshing(false);
+  }, []);
+
+  const onRefresh = useCallback(() => {
     dispatch(getTodos());
   }, []);
 
@@ -144,7 +164,12 @@ function List({ navigation }) {
             }
             style={{ marginTop: "10%" }}
           >
-            <Menu.Item onPress={() => {}} title="Refresh" />
+            <Menu.Item
+              onPress={() => {
+                onRefresh();
+              }}
+              title="Refresh"
+            />
             <Divider />
             <Menu.Item onPress={() => dispatch(logoutUser())} title="Logout" />
           </Menu>
@@ -167,15 +192,34 @@ function List({ navigation }) {
               );
             }}
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={() => {
+            ListFooterComponent={() => {
               return (
-                <Searchbar
-                  placeholder="Search task here"
-                  onChangeText={onChangeSearch}
-                  value={searchQuery}
-                />
+                <View>
+                  <Button
+                    onPress={() => {
+                      navigation.jumpTo("AddTask");
+                    }}
+                  >
+                    Hey
+                  </Button>
+                </View>
               );
             }}
+            ListHeaderComponent={() => {
+              return (
+                <>
+                  {/* {isFetching ? <ActivityIndicator /> : null} */}
+                  <Searchbar
+                    placeholder="Search task here"
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                  />
+                </>
+              );
+            }}
+            refreshControl={
+              <RefreshControl refreshing={isFetching} onRefresh={onRefresh} />
+            }
             renderItem={({ item }) => {
               return (
                 <SwipeableRow
@@ -217,7 +261,11 @@ function List({ navigation }) {
                 rules={{ required: "title is required" }}
                 defaultValue={specTodo.title}
               />
-              <HelperText>Currrent Title: {specTodo.title}</HelperText>
+              {errors.title ? (
+                <HelperText type="error">{errors?.title?.message}</HelperText>
+              ) : (
+                <HelperText>Currrent Title: {specTodo.title}</HelperText>
+              )}
               {/* <View style={{ height: "5%" }} /> */}
               <RHFInput
                 name="notes"
@@ -226,14 +274,18 @@ function List({ navigation }) {
                 placeholder="Input task notes…"
                 mode="outlined"
                 rules={{ required: "notes is required" }}
-                defaultValue=""
+                defaultValue={specTodo.note}
               />
-              {/* <View style={{ height: "5%" }} /> */}
+              {errors.notes ? (
+                <HelperText type="error">{errors?.notes?.message}</HelperText>
+              ) : (
+                <HelperText>Currrent Note: {specTodo.note}</HelperText>
+              )}
+
+              <View style={{ height: "5%" }} />
               <Dialog.Actions>
-                <Button onPress={() => console.log("Saved")}>Save</Button>
-                <Button onPress={() => console.log("Discarded")}>
-                  Discard
-                </Button>
+                <Button onPress={handleSubmit(HandleOnSubmit)}>Save</Button>
+                <Button onPress={() => hideDialogEd()}>Discard</Button>
               </Dialog.Actions>
             </View>
           </Dialog>
@@ -247,7 +299,7 @@ function List({ navigation }) {
               <Button onPress={() => dispatch(deleteTodo(specTodo?._id))}>
                 Yes, Delete.
               </Button>
-              <Button onPress={() => console.log("No")}>No</Button>
+              <Button onPress={() => hideDialogDel()}>No</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>

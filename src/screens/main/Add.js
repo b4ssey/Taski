@@ -15,6 +15,7 @@ import {
   Snackbar,
   ActivityIndicator,
   Portal,
+  TextInput,
 } from "react-native-paper";
 import LottieView from "lottie-react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -27,6 +28,7 @@ import { createTodo } from "../../store/ducks/todos";
 
 function Add({ navigation }) {
   const [visible, setVisible] = useState(false);
+  const [portVis, setPortVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   const [tag, setTag] = useState(null);
@@ -47,6 +49,7 @@ function Add({ navigation }) {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -86,10 +89,14 @@ function Add({ navigation }) {
   };
 
   useEffect(() => {
-    if (isError) setVisible(true);
-    // if (dateError) setVisible(true);
-    // if (tagError) setVisible(true);
-  }, [isFetching, dateError, tagError]);
+    if (isError) setPortVisible(true);
+  }, [isError, dateError, tagError]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+    }
+  }, []);
 
   return (
     <>
@@ -195,15 +202,19 @@ function Add({ navigation }) {
             />
           )}
         </Card>
+        {dateError == "Date not set." && (
+          <HelperText type="error">{dateError}</HelperText>
+        )}
         <View style={{ height: "2.5%" }} />
         {isFetching ? (
           <ActivityIndicator animating={true} />
-        ) : isSuccess ? (
-          <LottieView
-            source={require("../../../assets/success2.json")}
-            onAnimationFinish={() => navigation.navigate()}
-          />
         ) : (
+          // : isSuccess ? (
+          //   <LottieView
+          //     source={require("../../../assets/success2.json")}
+          //     onAnimationFinish={() => navigation.navigate()}
+          //   />
+          // )
           <Button
             mode="contained"
             uppercase={false}
@@ -215,7 +226,7 @@ function Add({ navigation }) {
 
         <>
           <Portal>
-            <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
+            <Snackbar visible={portVis} onDismiss={() => setPortVisible(false)}>
               {errorMessage || dateError || tagError}
             </Snackbar>
           </Portal>

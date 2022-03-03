@@ -17,6 +17,22 @@ export const createTodo = createAsyncThunk(
   }
 );
 
+export const modifyTodo = createAsyncThunk(
+  "todos/modifyTodo",
+  async (id, state, { rejectWithValue, getState }) => {
+    const { token } = getState().user;
+    try {
+      return await client(endpoint.todo + "/" + id, {
+        body: state,
+        headers: { "x-auth-token": token },
+        method: "PUT",
+      });
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 export const getTodos = createAsyncThunk(
   "todos/getTodos",
   async (_, { rejectWithValue, getState }) => {
@@ -63,6 +79,8 @@ const slice = createSlice({
     },
     [createTodo.pending]: (state) => {
       state.isFetching = true;
+      state.isError = false;
+      state.isSuccess = false;
     },
     [createTodo.rejected]: (state, { payload }) => {
       state.isFetching = false;
@@ -85,12 +103,25 @@ const slice = createSlice({
     [deleteTodo.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      // state.todos = payload;
+      let newPayload = state.todos.filter((e) => e._id !== payload._id);
+      state.todos = newPayload;
     },
     [deleteTodo.pending]: (state) => {
       state.isFetching = true;
     },
     [deleteTodo.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload;
+    },
+    [modifyTodo.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [modifyTodo.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [modifyTodo.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload;

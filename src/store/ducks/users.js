@@ -55,6 +55,7 @@ const slice = createSlice({
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
+      state.isError = false;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
