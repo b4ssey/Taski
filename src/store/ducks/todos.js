@@ -19,7 +19,7 @@ export const createTodo = createAsyncThunk(
 
 export const modifyTodo = createAsyncThunk(
   "todos/modifyTodo",
-  async (id, state, { rejectWithValue, getState }) => {
+  async ({ id, state }, { rejectWithValue, getState }) => {
     const { token } = getState().user;
     try {
       return await client(endpoint.todo + "/" + id, {
@@ -117,9 +117,11 @@ const slice = createSlice({
     [modifyTodo.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
+      state.isError = false;
     },
     [modifyTodo.pending]: (state) => {
       state.isFetching = true;
+      state.isSuccess = false;
     },
     [modifyTodo.rejected]: (state, { payload }) => {
       state.isFetching = false;

@@ -1,55 +1,42 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Agenda } from "react-native-calendars";
 import Todo from "../../components/list/Todo";
 import AppSafeAreaView from "../../components/reusables/AppSafeAreaView";
 import format from "date-fns/format";
-import { View } from "react-native-web";
+import { useSelector, useDispatch } from "react-redux";
 
 function Calender(props) {
   const [date, setDate] = useState(new Date());
   const calendarDate = format(date, "yyyy-MM-dd");
+  const { todos } = useSelector((state) => state.todo);
+  const [modTodos, setModTodos] = useState({});
+
+  useMemo(() => {
+    // const newTodow = todos.map((x) => {
+    //   return { ...x, dateChosen: format(Date.parse(c.dateChosen) };
+    // });
+    // console.log("hey hey", newTodow);
+    const newTodo = todos.reduce(
+      (o, c) => ({
+        ...o,
+        [format(Date.parse(c.dateChosen), "yyyy-MM-dd")]: [c],
+      }),
+      {}
+    );
+    setModTodos(newTodo);
+  }, []);
 
   // console.log(calendarDate);
   return (
     <AppSafeAreaView>
       <Agenda
-        items={{
-          "2021-12-30": [
-            {
-              title: "Client Meetings",
-              timeDate: "March 16, 2021 — 12.00 PM",
-              notes:
-                "Asking for some insight from marketing perspective. Take notes and more.",
-              tag: "Urgent",
-            },
-            {
-              title: "Investing Some Money",
-              timeDate: "Today — 09.00",
-              notes: "Daily Investing for APPL.",
-              tag: "Normal",
-            },
-          ],
-          "2021-12-29": [
-            {
-              title: "Client Event",
-              timeDate: "Yesterday — 09.30",
-              notes: "Go for client event",
-              tag: "Normal",
-            },
-            {
-              title: "Workout",
-              timeDate: "Today — 09.00",
-              notes: "Take some workout time",
-              tag: "Low",
-            },
-          ],
-        }}
+        items={modTodos}
         renderItem={(item) => {
           return (
             <Todo
               title={item.title}
               timeDate={item.timeDate}
-              notes={item.notes}
+              notes={item.note}
               tag={item.tag}
             />
           );

@@ -21,6 +21,7 @@ import {
   Dialog,
   Button,
   HelperText,
+  Snackbar,
 } from "react-native-paper";
 import Taski from "../../../assets/taski.svg";
 import TaskiEmpty from "../../../assets/taskiEmpty.svg";
@@ -44,12 +45,16 @@ function List({ navigation }) {
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
   const [specTodo, setSpecTodo] = useState([]);
+  const [portVis, setPortVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(true);
   const dispatch = useDispatch();
-  const { todos, isFetching } = useSelector((state) => state.todo);
+  const { todos, isFetching, isError, errorMessage } = useSelector(
+    (state) => state.todo
+  );
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   let drawer = null;
@@ -69,16 +74,26 @@ function List({ navigation }) {
 
   const HandleOnSubmit = (data) => {
     dispatch(
-      modifyTodo(specTodo._id, {
-        title: data.title,
-        note: data.note,
-        owner: specTodo.owner,
-        tag: specTodo.tag,
-        dateChosen: specTodo.dateChosen,
+      modifyTodo({
+        id: specTodo._id,
+        state: {
+          title: data.title,
+          note: data.notes,
+          owner: specTodo.owner._id,
+          tag: specTodo.tag,
+          dateChosen: specTodo.dateChosen,
+        },
       })
     );
+    if (isError) return setPortVisible(true);
+    reset();
     hideDialogEd();
+    dispatch(getTodos());
   };
+
+  useEffect(() => {
+    if (isError) setPortVisible(true);
+  }, []);
 
   useEffect(() => {
     dispatch(getTodos());
@@ -192,19 +207,6 @@ function List({ navigation }) {
               );
             }}
             showsVerticalScrollIndicator={false}
-            ListFooterComponent={() => {
-              return (
-                <View>
-                  <Button
-                    onPress={() => {
-                      navigation.jumpTo("AddTask");
-                    }}
-                  >
-                    Hey
-                  </Button>
-                </View>
-              );
-            }}
             ListHeaderComponent={() => {
               return (
                 <>
@@ -304,6 +306,11 @@ function List({ navigation }) {
           </Dialog>
         </Portal>
       </>
+      <Portal>
+        <Snackbar visible={portVis} onDismiss={() => setPortVisible(false)}>
+          {errorMessage}
+        </Snackbar>
+      </Portal>
     </>
   );
 }
