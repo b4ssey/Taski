@@ -66,6 +66,7 @@ function Add({ navigation }) {
         dateChosen: date,
       })
     );
+    if (isSuccess) reset();
   };
 
   const onChange = (event, selectedDate) => {
@@ -93,9 +94,7 @@ function Add({ navigation }) {
   }, [isError, dateError, tagError]);
 
   useEffect(() => {
-    if (isSuccess) {
-      reset();
-    }
+    if (isSuccess) reset();
   }, []);
 
   return (
