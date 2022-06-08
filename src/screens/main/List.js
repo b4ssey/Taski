@@ -122,11 +122,6 @@ function List({ navigation }) {
                 navigation.navigate("feedback");
               }}
             />
-            {/* <Drawer.Item
-              label="Buy me a Coffee"
-              active={active === "third"}
-              onPress={() => setActive("third")}
-            /> */}
           </Drawer.Section>
           <Drawer.Section title="About....">
             <Drawer.Item

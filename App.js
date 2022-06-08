@@ -12,14 +12,7 @@ import {
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store } from "./src/store/store";
-import Authentication from "./src/components/navigation/Authentication";
-import Overview from "./src/components/navigation/Overview";
-import Verification from "./src/screens/authentication/Verification";
 import theme from "./src/components/theme";
-import Login from "./src/screens/authentication/Login";
-import Register from "./src/screens/authentication/Register";
-import FirstScreen from "./src/screens/authentication/FirstScreen";
-import Todo from "./src/components/list/Todo";
 import darkTheme from "./src/components/darktheme";
 import Feedback from "./src/screens/main/Feedback";
 import MyProfile from "./src/screens/main/MyProfile";
