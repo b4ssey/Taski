@@ -12,11 +12,11 @@ This project is at its MVP phase, where a user can comfortably create, read, upd
 
 ### Authentication
 
-![Authentication_Flow](assets/authenticationtaski.png?raw=true "Authentication Flow")
+![Authentication_Flow](assets/authentication_taski.png?raw=true "Authentication Flow")
 
 ### Overview
 
-![Overview_Flow](assets/overviewtaski.png?raw=true "Overview Flow")
+![Overview_Flow](assets/overview_taski.png?raw=true "Overview Flow")
 
 ## Installation and Setup Instructions
 
